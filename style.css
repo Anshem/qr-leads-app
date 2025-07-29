@@ -1,18 +1,10 @@
 body {
   font-family: Arial, sans-serif;
+  text-align: center;
   padding: 20px;
-  max-width: 600px;
-  margin: auto;
 }
-form > div, #custom-fields > div {
-  margin-bottom: 10px;
-}
-input, select {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-}
-button {
-  padding: 10px;
-  margin: 5px 0;
+
+#result {
+  margin-top: 20px;
+  text-align: left;
 }

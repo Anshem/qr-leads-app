@@ -1,106 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lector QR con Autofocus</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 480px;
-      margin: auto;
-      text-align: center;
-    }
-    #qr-reader {
-      width: 100%;
-      max-width: 320px;
-      margin: auto;
-    }
-    #result {
-      margin-top: 20px;
-      text-align: left;
-      white-space: pre-wrap;
-      background: #f7f7f7;
-      padding: 15px;
-      border-radius: 8px;
-      font-family: monospace;
-    }
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-  </style>
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escáner QR</title>
+  <link rel="stylesheet" href="style.css">
+  https://unpkg.com/html5-qrcode
 </head>
 <body>
-  <h1>Lector QR con Autofocus</h1>
-  <div id="qr-reader"></div>
-  <button id="start-btn">Iniciar Escáner</button>
-  <button id="stop-btn" disabled>Detener Escáner</button>
-  <div id="result">Aquí aparecerá el contenido del QR:</div>
-
-  <script>
-    const qrReader = new Html5Qrcode("qr-reader");
-    const startBtn = document.getElementById("start-btn");
-    const stopBtn = document.getElementById("stop-btn");
-    const resultDiv = document.getElementById("result");
-
-    let scanning = false;
-
-    startBtn.onclick = () => {
-      if (scanning) return;
-      scanning = true;
-      startBtn.disabled = true;
-      stopBtn.disabled = false;
-      resultDiv.textContent = "Buscando QR...";
-
-      const constraints = {
-        facingMode: { exact: "environment" },
-        // focusMode no está estándar ni ampliamente soportado,
-        // pero se intenta incluir para dispositivos compatibles
-        advanced: [{ focusMode: "continuous" }]
-      };
-
-      qrReader.start(
-        constraints,
-        {
-          fps: 10,
-          qrbox: 250,
-          experimentalFeatures: {
-            useBarCodeDetectorIfSupported: true
-          }
-        },
-        (decodedText) => {
-          resultDiv.textContent = decodedText;
-          qrReader.stop().then(() => {
-            scanning = false;
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
-          });
-        },
-        (errorMessage) => {
-          // Se puede mostrar el error o mantener silencio para mejor UX
-          // console.log("No QR detected yet.", errorMessage);
-        }
-      ).catch(err => {
-        alert("Error al iniciar cámara: " + err);
-        scanning = false;
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-      });
-    };
-
-    stopBtn.onclick = () => {
-      if (!scanning) return;
-      qrReader.stop().then(() => {
-        scanning = false;
-        resultDiv.textContent = "Escáner detenido.";
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-      });
-    };
-  </script>
+  <h1>Escáner QR</h1>
+  <div id="reader" style="width: 300px;"></div>
+  <div id="result"></div>
+  <script src="script.js"></script>
 </body>
 </html>
