@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lector QR clave-valor</title>
+  <title>Lector QR con Autofocus</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -35,31 +35,17 @@
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
 <body>
-  <h1>Lector QR clave-valor</h1>
+  <h1>Lector QR con Autofocus</h1>
   <div id="qr-reader"></div>
   <button id="start-btn">Iniciar Escáner</button>
   <button id="stop-btn" disabled>Detener Escáner</button>
-  <div id="result">Aquí aparecerá el contenido clave: valor</div>
+  <div id="result">Aquí aparecerá el contenido del QR</div>
 
   <script>
     const qrReader = new Html5Qrcode("qr-reader");
     const startBtn = document.getElementById("start-btn");
     const stopBtn = document.getElementById("stop-btn");
     const resultDiv = document.getElementById("result");
-
-    function parseKeyValue(text) {
-      const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l);
-      let output = "";
-      lines.forEach(line => {
-        if (line.includes(":")) {
-          const [key, ...rest] = line.split(":");
-          output += key.trim() + " : " + rest.join(":").trim() + "\n";
-        } else {
-          output += line + "\n";
-        }
-      });
-      return output;
-    }
 
     let scanning = false;
 
@@ -70,8 +56,15 @@
       stopBtn.disabled = false;
       resultDiv.textContent = "Buscando QR...";
 
+      const constraints = {
+        facingMode: { exact: "environment" },
+        // focusMode no está estándar ni ampliamente soportado,
+        // pero se intenta incluir para dispositivos compatibles
+        advanced: [{ focusMode: "continuous" }]
+      };
+
       qrReader.start(
-        { facingMode: { exact: "environment" } }, // cámara trasera forzada
+        constraints,
         {
           fps: 10,
           qrbox: 250,
@@ -80,8 +73,7 @@
           }
         },
         (decodedText) => {
-          // Cuando detecta QR, muestra resultado y detiene cámara
-          resultDiv.textContent = parseKeyValue(decodedText);
+          resultDiv.textContent = decodedText;
           qrReader.stop().then(() => {
             scanning = false;
             startBtn.disabled = false;
@@ -89,7 +81,7 @@
           });
         },
         (errorMessage) => {
-          // Opcional: mostrar errores o estado
+          // Se puede mostrar el error o mantener silencio para mejor UX
           // console.log("No QR detected yet.", errorMessage);
         }
       ).catch(err => {
