@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Lead Capture</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<body>
+  <h1>Captura de Leads por QR</h1>
+  <button onclick="startScanner()">Escanear QR</button>
+  <div id="qr-reader" style="width: 300px; margin: auto;"></div>
+  <form id="lead-form" style="display: none;">
+    <h2>Datos del Lead</h2>
+    <div id="qr-fields"></div>
+    <h3>Campos adicionales</h3>
+    <div id="custom-fields"></div>
+    <button type="button" onclick="saveLead()">Guardar Lead</button>
+  </form>
+  <hr />
+  <button onclick="exportCSV()">Exportar a CSV</button>
+  <button onclick="clearLeads()">Borrar todo</button>
+  <h3>Leads guardados</h3>
+  <ul id="lead-list"></ul>
+  <script src="main.js"></script>
+</body>
+</html>
