@@ -1,16 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escáner QR</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lector de QR</title>
+  <link rel="stylesheet" href="style.css" />
   https://unpkg.com/html5-qrcode
 </head>
+
 <body>
-  <h1>Escáner QR</h1>
-  <div id="reader" style="width: 300px;"></div>
-  <div id="result"></div>
+  <div class="container">
+    <h1>Escáner de Código QR</h1>
+    <div id="reader"></div>
+    <div id="result">
+      <h2>Resultado:</h2>
+      <p id="output">Esperando escaneo...</p>
+    </div>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
